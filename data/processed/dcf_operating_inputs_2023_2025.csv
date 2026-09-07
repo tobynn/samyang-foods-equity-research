@@ -1,0 +1,4 @@
+year,revenue_krw_bn,capex_ppe_krw_bn,ppe_depreciation_krw_bn,accounts_receivable_krw_bn,inventory_krw_bn,accounts_payable_krw_bn,core_nwc_krw_bn,delta_core_nwc_krw_bn,capex_to_sales,core_nwc_to_sales
+2023,1192.915,44.996,,79.845,142.175,106.540,115.480,,0.0377,0.0968
+2024,1728.015,228.450,30.297,136.843,148.020,144.748,140.115,24.635,0.1322,0.0811
+2025,2351.785,448.988,39.743,185.202,245.011,129.636,300.577,160.462,0.1909,0.1278
