@@ -1,0 +1,14 @@
+metric,2025_12_31_krw_bn,2026_06_30_krw_bn,comment
+accounts_receivable,185.202,256.385,Consolidated balance sheet
+inventory,245.011,277.639,Consolidated balance sheet
+accounts_payable,129.636,174.224,Consolidated balance sheet
+core_nwc,300.577,359.800,AR + inventory - AP
+cash_and_cash_equivalents,332.841,630.597,Consolidated balance sheet
+short_term_financial_assets,45.243,118.715,Consolidated balance sheet
+gross_borrowings_ex_lease,439.269,601.830,Short-term borrowings + current long-term debt + long-term borrowings
+lease_liabilities,63.380,71.175,Current + non-current lease liabilities
+h1_ppe_capex,,103.333,2026H1 cash-flow statement; prior H1 was 324.933
+h1_ppe_depreciation,,25.337,2026H1 consolidated PPE note
+h1_revenue,,1484.715,2026H1 consolidated income statement
+h1_operating_profit,,353.314,2026H1 consolidated income statement
+h1_net_income,,282.054,2026H1 consolidated income statement
