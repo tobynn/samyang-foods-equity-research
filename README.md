@@ -164,3 +164,12 @@ Every model input should eventually have a traceable source.
 ## Disclaimer
 
 This repository is an educational portfolio project and is not investment advice.
+
+
+## Latest valuation work
+
+- [PER premium framework](research/PER_PREMIUM_FRAMEWORK.md)
+- [Peer valuation dataset](data/processed/peer_valuation_2026_2027.csv)
+- `notebooks/04_per_relative_valuation.ipynb` reproduces the peer premium and implied-price sensitivity.
+
+Current convention: Nongshim + Orion are the primary PER peers. The Base premium is anchored to the average observed Samyang premium versus those peers across 2026E and 2027E, rather than an arbitrary percentage.
