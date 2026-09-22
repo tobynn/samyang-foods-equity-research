@@ -1,175 +1,120 @@
-# Samyang Foods Equity Research & Valuation
+# 삼양식품 기업분석 · 가치평가
 
-**Company:** Samyang Foods Co., Ltd. (KRX: 003230)  
-**Project type:** Finance × Data Analytics portfolio project  
-**Status:** Starter repository
+> 해외 매출, 생산능력, 수익성의 변화를 2026E–2030E 실적과 DCF·RIM·PER 가치평가로 연결한 기업분석 포트폴리오
 
-## Project objective
+[![Company](https://img.shields.io/badge/Company-Samyang%20Foods-E60012)](https://www.samyangfoods.com/)
+![Ticker](https://img.shields.io/badge/KRX-003230-1f6feb)
+![Status](https://img.shields.io/badge/Status-Portfolio%20Draft-f0ad4e)
+![Data](https://img.shields.io/badge/Data-2026H1-2ea44f)
 
-Build a reproducible equity-research workflow that connects:
+## 한눈에 보기
 
-1. public financial data,
-2. Python-based cleaning and analysis,
-3. business-driver forecasting,
-4. PER / RIM / DCF valuation,
-5. a final equity-research report,
-6. and later an LLM/RAG research assistant using the same public filings.
+삼양식품의 최근 성장은 해외 매출 확대와 생산능력 증설에서 나왔다. 이 저장소는 2021–2025년 실적과 2026년 상반기 자료를 바탕으로 매출·이익·FCFF를 전망하고, 서로 다른 관점의 세 평가법을 비교한다.
 
-### Core research question
+| 항목 | 핵심 내용 |
+|---|---:|
+| 2025 매출 / 영업이익률 | 2.352조원 / 22.3% |
+| 2026H1 매출 / 영업이익률 | 1.485조원 / 23.8% |
+| 2026H1 해외 매출 비중 | 82.9% |
+| Base 2026E 매출 / EPS | 3.10조원 / 76,132원 |
+| Base 2030E 매출 / FCFF | 5.27조원 / 8,279억원 |
+| DCF 기준값 | 1,632,117원/주 |
+| PER 기준값 | 1,366,590원/주 |
+| RIM 점검값 | 784,293원/주 |
 
-> Can Samyang Foods sustain its earnings growth, and what valuation is justified by a driver-based forecast rather than a simple historical-average extrapolation?
+> 위 값은 2026년 상반기까지의 공개자료와 독립 가정을 사용한 포트폴리오 계산 결과다. 목표주가나 투자 권유가 아니다. RIM의 시작 자본은 공시 원문 대사가 끝나기 전까지 임시값으로 표시했다.
 
-This is a hypothesis to test, not a predetermined conclusion.
+## 투자 판단의 핵심
 
----
+1. **해외 매출이 성장의 중심이다.** 2026H1 해외 매출은 1.231조원으로 전체 매출의 82.9%다.
+2. **증설 시점이 전망을 바꾼다.** 밀양 2공장의 2026년 가동률 상승과 2027년 예정된 중국 자싱 공장이 매출 증가의 주요 전제다.
+3. **마진은 23%대에서 안정되는 것으로 잡았다.** Base 영업이익률은 2026E 23.5%, 2028E 24.0%, 2030E 23.5%다.
+4. **평가법별 결과 차이가 크다.** DCF는 163만원, 비교기업 PER은 137만원, 임시 장부가치를 사용한 RIM은 78만원이다. 최종 보고서에서는 이 차이의 원인을 설명한다.
 
-## Repository structure
+## Base 전망
+
+| 구분 | 2026E | 2027E | 2028E | 2029E | 2030E |
+|---|---:|---:|---:|---:|---:|
+| 매출(십억원) | 3,100 | 3,720 | 4,315 | 4,833 | 5,268 |
+| 매출 성장률 | 31.8% | 20.0% | 16.0% | 12.0% | 9.0% |
+| 영업이익률 | 23.5% | 23.8% | 24.0% | 23.8% | 23.5% |
+| 순이익(십억원) | 573.5 | 699.4 | 819.9 | 903.8 | 969.3 |
+| FCFF(십억원) | 294.6 | 516.3 | 659.1 | 756.1 | 827.9 |
+
+상세 가정과 계산식은 [`report/VALUATION.md`](report/VALUATION.md), 입력값과 출력값은 [`model/valuation_assumptions.csv`](model/valuation_assumptions.csv)와 [`model/valuation_results.csv`](model/valuation_results.csv)에서 확인할 수 있다.
+
+## 평가 결과
+
+| 평가법 | 기준 가정 | 주당가치 | 해석 |
+|---|---|---:|---|
+| DCF | WACC 8.5%, 영구성장률 2.5% | 1,632,117원 | Base FCFF와 2026H1 순현금 사용 |
+| PER | 2027E EPS 92,839원, 14.72배 | 1,366,590원 | 비교기업 중앙값 9.815배에 50% 프리미엄 |
+| RIM | 자기자본비용 9.0%, 장기 ROE 14.0% | 784,293원 | 시작 자본 1.2조원은 임시 입력값 |
+
+DCF 민감도에서 주당가치는 132만~216만원 범위다(WACC 7.5~9.5%, 영구성장률 2.0~3.0%). 숫자 하나보다 가정 변화에 따른 범위를 먼저 본다.
+
+## 저장소 구성
 
 ```text
-samyang-foods-equity-research/
-├── README.md
-├── START_HERE_KR.md
-├── PROJECT_PLAN.md
-├── requirements.txt
+.
 ├── data/
-│   ├── raw/
-│   ├── processed/
-│   │   └── financials_annual.csv
-│   └── source_registry.csv
-├── documents/
-│   ├── annual_reports/
-│   ├── quarterly_reports/
-│   └── ir_presentations/
+│   ├── raw/                    # 원문 자료 위치 안내
+│   ├── processed/              # 재무·사업지표·전망 CSV
+│   └── source_registry.csv     # 출처 목록
+├── documents/                  # 사업·반기·IR 자료 위치 안내
 ├── notebooks/
 │   ├── 01_financial_trend_analysis.ipynb
 │   ├── 02_revenue_driver_framework.ipynb
-│   └── 03_forecast_valuation_bridge.ipynb
-├── src/
-│   └── metrics.py
+│   ├── 03_forecast_valuation_bridge.ipynb
+│   └── 04_per_relative_valuation.ipynb
+├── research/
+│   ├── 2026H1_DRIVER_NOTES.md
+│   ├── FORECAST_ASSUMPTIONS_2026_2030.md
+│   └── PER_PREMIUM_FRAMEWORK.md
 ├── model/
 │   ├── PER_template.xlsx
-│   ├── RIM_template.xlsx
-│   └── DCF_template.xlsx
-├── figures/
+│   ├── valuation_assumptions.csv
+│   └── valuation_results.csv
 ├── report/
-└── llm_extension/
+│   └── VALUATION.md
+├── src/
+│   ├── metrics.py
+│   └── valuation.py
+└── figures/
 ```
 
----
+현재 GitHub에는 `PER_template.xlsx`만 존재한다. 과거 README에 적힌 RIM·DCF Excel 파일은 업로드되지 않았으므로, 재현 가능한 계산은 `src/valuation.py`와 CSV로 먼저 정리했다. 기존 RIM·DCF 파일을 추가할 때 같은 가정표를 연결하면 된다.
 
-## Current baseline data
-
-The starter dataset contains 2021-2025 consolidated headline financials from Samyang Foods' official IR financial-information page.
-
-| Year | Revenue (KRW mn) | Operating Profit (KRW mn) | Net Income (KRW mn) |
-|---:|---:|---:|---:|
-| 2021 | 642,030 | 65,363 | 56,658 |
-| 2022 | 909,037 | 90,376 | 80,271 |
-| 2023 | 1,192,915 | 147,514 | 126,591 |
-| 2024 | 1,728,015 | 344,569 | 271,256 |
-| 2025 | 2,351,785 | 524,188 | 388,674 |
-
-**Primary source:** https://www.samyangfoods.com/kor/ir/finance.do
-
-Before valuation, detailed figures should be reconciled to the annual/quarterly filings in DART.
-
----
-
-## Analysis roadmap
-
-### Phase 1 — Historical financial analysis
-- Revenue growth
-- Operating margin
-- Net margin
-- CAGR
-- profitability trend
-- cash-flow and balance-sheet items to be added from DART
-
-### Phase 2 — Business-driver analysis
-Instead of forecasting revenue with only historical growth rates, define operational drivers.
-
-Candidate drivers to test:
-- domestic vs. overseas sales
-- major regional growth
-- product / brand mix
-- production capacity and utilization
-- ASP / pricing
-- FX exposure
-- raw-material / logistics cost
-- CAPEX and new capacity
-
-### Phase 3 — Forecast
-Create Base / Bull / Bear cases for:
-- revenue
-- EBIT margin
-- tax rate
-- D&A
-- working capital
-- CAPEX
-- FCFF
-- EPS / book value
-
-### Phase 4 — Valuation
-Use the existing templates in `/model` as a starting point:
-- PER
-- RIM
-- DCF
-
-The final project should explain **why each assumption is used**. Do not simply apply historical averages.
-
-### Phase 5 — Research report
-Target output:
-- 10-15 page equity-research PDF
-- investment thesis
-- industry/company analysis
-- earnings forecast
-- valuation
-- risks
-- sensitivity / scenario analysis
-
-### Phase 6 — LLM extension
-Reuse Samyang Foods filings and IR documents to build a citation-based RAG research assistant.
-
-See `/llm_extension/README.md`.
-
----
-
-## Getting started
+## 재현 방법
 
 ```bash
 pip install -r requirements.txt
-jupyter notebook
+python src/valuation.py
 ```
 
-Run notebooks in order:
+스크립트는 `data/processed/forecast_scenarios_2026_2030.csv`와 가정표를 읽어 `model/valuation_results.csv`를 다시 만든다. Notebook은 01 → 02 → 03 순서로 실행한다.
 
-1. `01_financial_trend_analysis.ipynb`
-2. `02_revenue_driver_framework.ipynb`
-3. `03_forecast_valuation_bridge.ipynb`
+## 남은 검증
 
----
+- 2026H1 지배주주 자기자본과 발행주식수를 DART 원문에 맞춰 확정
+- RIM 시작 장부가치와 배당성향 교체
+- PER 비교기업 컨센서스 출처와 기준일 정기 갱신
+- 사용자가 보유한 DCF·RIM Excel 원본을 `model/`에 추가하고 외부참조 제거
+- 2026년 연간 실적 발표 후 전망 갱신
 
-## Data-source policy
+## 주요 출처
 
-Prefer primary sources:
-1. Samyang Foods IR
-2. DART
-3. KRX KIND
-4. Bank of Korea / KOSIS / customs data where needed
+- [삼양식품 IR 재무정보](https://www.samyangfoods.com/kor/ir/finance.do)
+- [삼양식품 IR 자료실](https://www.samyangfoods.com/kor/ir/list.do)
+- [DART 전자공시시스템](https://dart.fss.or.kr/)
+- [KRX KIND](https://kind.krx.co.kr/)
 
-Every model input should eventually have a traceable source.
+## 면책
 
----
+교육·취업 포트폴리오 목적으로 작성했다. 모든 전망과 가치평가는 작성자의 가정이며 투자 조언이 아니다.
 
-## Disclaimer
+## PER 비교기업 분석
 
-This repository is an educational portfolio project and is not investment advice.
-
-
-## Latest valuation work
-
-- [PER premium framework](research/PER_PREMIUM_FRAMEWORK.md)
-- [Peer valuation dataset](data/processed/peer_valuation_2026_2027.csv)
-- `notebooks/04_per_relative_valuation.ipynb` reproduces the peer premium and implied-price sensitivity.
-
-Current convention: Nongshim + Orion are the primary PER peers. The Base premium is anchored to the average observed Samyang premium versus those peers across 2026E and 2027E, rather than an arbitrary percentage.
+- [PER 프리미엄 산정 근거](research/PER_PREMIUM_FRAMEWORK.md)
+- [비교기업 데이터](data/processed/peer_valuation_2026_2027.csv)
+- `notebooks/04_per_relative_valuation.ipynb`에서 프리미엄과 적정가치 민감도를 재현할 수 있다.
