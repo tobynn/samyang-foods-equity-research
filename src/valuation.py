@@ -69,9 +69,9 @@ def main() -> None:
 
     results = pd.DataFrame(
         [
-            ["DCF", "Base", dcf_equity, dcf_equity * 1_000 / shares, "provisional"],
-            ["PER", "Base", per_equity, per_price, "provisional"],
-            ["RIM", "Base", rim_equity, rim_equity * 1_000 / shares, "provisional-input"],
+            ["DCF", "Base", dcf_equity, dcf_equity * 1_000 / shares, "filed-anchor"],
+            ["PER", "Base", per_equity, per_price, "market-cross-check"],
+            ["RIM", "Base", rim_equity, rim_equity * 1_000 / shares, "filed-anchor"],
         ],
         columns=["method", "case", "equity_value_krw_bn", "value_per_share_krw", "status"],
     )

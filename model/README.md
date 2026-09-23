@@ -3,10 +3,12 @@
 ## 현재 포함 파일
 
 - `PER_template.xlsx`: 기존 PER 템플릿
+- `DCF_model.xlsx`: 2026E–2030E FCFF, terminal value, 순현금, 민감도 계산
+- `RIM_model.xlsx`: 2026H1 확정 자기자본, 잔여이익, terminal value, 장부가치 브리지 계산
 - `valuation_assumptions.csv`: DCF·RIM·PER 공통 가정표
 - `valuation_results.csv`: `src/valuation.py`가 생성하는 결과표
 
-이전 문서에 적혀 있던 `RIM_template.xlsx`, `DCF_template.xlsx`는 현재 GitHub 저장소에 존재하지 않는다. 두 파일을 추가하기 전까지 Python 계산을 재현 가능한 기준본으로 사용한다.
+Excel 모델과 Python 계산은 같은 입력값을 사용한다. 기준 결과는 DCF 1,631,897원, PER 1,366,590원, RIM 837,658원이다.
 
 ## 입력 원칙
 

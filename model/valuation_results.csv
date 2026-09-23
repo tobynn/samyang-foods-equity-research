@@ -1,4 +1,4 @@
 method,case,equity_value_krw_bn,value_per_share_krw,status
-DCF,Base,12293.1,1632117,provisional
-PER,Base,10293.2,1366590,provisional
-RIM,Base,5907.3,784293,provisional-input
+DCF,Base,12293.1,1631897,filed-anchor
+PER,Base,10294.5,1366590,market-cross-check
+RIM,Base,6310.1,837658,filed-anchor
