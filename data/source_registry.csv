@@ -1,5 +1,8 @@
 ﻿source_name,url,use_case,source_type
 Samyang Foods IR - Financial Information,https://www.samyangfoods.com/kor/ir/finance.do,"2021-2025 revenue, operating profit, net income baseline",Official company IR
 Samyang Foods IR - Notices / Presentations,https://www.samyangfoods.com/kor/ir/list.do,"Latest annual / quarterly IR materials, including 2026 Q2",Official company IR
-DART,https://dart.fss.or.kr/,Annual/quarterly filings and detailed financial statement notes,Official regulatory filing system
+DART 2026 Half-year Report,https://dart.fss.or.kr/dsaf001/main.do?rcpNo=20260814003053,"2026H1 financial statements, equity and filing anchor",Official regulatory filing
 KRX KIND,https://kind.krx.co.kr/,Listing/disclosure cross-check; company code 003230,Official exchange disclosure system
+FnGuide Company Snapshot,https://comp.fnguide.com/SVO2/ASP/SVD_Main.asp?pGB=1&gicode=A003230,"Listed share count cross-check",Market data service
+Korean Stock Data,https://www.koreastockdata.com/company/003230,"2026-09-18 reference close and filing cross-check",Market data service
+Google Fonts - Nanum Gothic,https://github.com/google/fonts/tree/main/ofl/nanumgothic,"Embedded Korean font for reproducible PDF generation",Open Font License

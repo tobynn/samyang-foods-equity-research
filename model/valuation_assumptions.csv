@@ -1,13 +1,14 @@
 method,item,value,unit,status,note
-Common,valuation_date,2026-06-30,date,provisional,2026H1 anchor
-Common,shares_outstanding,7.532,million shares,provisional,Implied from 2026E net income divided by EPS; replace with filing figure
-Common,net_cash,76.307,KRW bn,provisional,Cash plus short-term financial assets less borrowings and lease liabilities at 2026H1
+Common,valuation_date,2026-06-30,date,filed,2026H1 DART filing anchor
+Common,shares_outstanding,7.533015,million shares,filed,"7,533,015 listed common shares"
+Common,net_cash,76.307,KRW bn,filed,Cash plus short-term financial assets less borrowings and lease liabilities at 2026H1
+Common,reference_price,1300000,KRW per share,observed,2026-09-18 closing price used only as a comparison point
 DCF,wacc,0.085,decimal,assumption,Independent model assumption
 DCF,terminal_growth,0.025,decimal,assumption,Long-run nominal growth assumption
 DCF,discount_timing,mid_year,text,assumption,2026E FCFF discounted by 0.5 year
 PER,forward_eps,92839,KRW per share,forecast,2027E Base EPS
 PER,target_multiple,14.72,x,assumption,2027 primary-peer median 9.815x plus 50% premium
-RIM,beginning_common_equity,1200,KRW bn,provisional,Temporary value until DART reconciliation
+RIM,beginning_common_equity,1548.3,KRW bn,filed,2026H1 consolidated total equity cross-checked to DART filing
 RIM,cost_of_equity,0.09,decimal,assumption,Independent model assumption
 RIM,payout_ratio,0.15,decimal,assumption,Applied to Base net income
 RIM,terminal_roe,0.14,decimal,assumption,Mature-state ROE assumption
