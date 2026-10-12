@@ -22,3 +22,6 @@ Excel 모델과 Python 계산은 같은 입력값을 사용한다. 기준 결과
 ## 해석 기준 보완
 
 PER 모델의 primary panel은 농심·오리온이지만 관찰 프리미엄 +50%는 공정가치로 검증된 계수가 아니라 기존 snapshot 기반 sensitivity다. 기준일은 DCF/RIM의 2026-06-30과 peer 가격의 2026-09-18로 완전히 일치하지 않는다. 갱신·해석 때 [`peer scorecard`](../research/PEER_SELECTION_SCORECARD.md), [`premium framework`](../research/PER_PREMIUM_FRAMEWORK.md), [`vintage policy`](../research/VALUATION_VINTAGE_POLICY.md)를 먼저 확인한다.
+
+
+The DCF and RIM `Inputs` tabs now carry an in-model vintage/evidence control block: the 2026-06-30 model date versus 2026-09-18 observed peer-price date, the +50% PER sensitivity caveat, equity attribution checks and forecast refresh labels. The calculation outputs are unchanged.
