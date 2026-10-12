@@ -27,17 +27,34 @@ def rim_value(
     payout_ratio: float,
     terminal_roe: float,
     terminal_growth: float,
-) -> float:
+    h1_actual_net_income: float,
+) -> tuple[float, list[dict[str, float | int | str]]]:
     equity = beginning_equity
     pv_residual_income = 0.0
-    for year, income in enumerate(net_income):
-        residual_income = income - cost_of_equity * equity
-        pv_residual_income += residual_income / (1 + cost_of_equity) ** (year + 0.5)
-        equity += income * (1 - payout_ratio)
-    terminal_ri = (terminal_roe - cost_of_equity) * equity
+    rows = []
+    for i, (year, full_year_income) in enumerate(zip(range(2026, 2031), net_income)):
+        period = "2026H2" if i == 0 else str(year)
+        income = full_year_income - h1_actual_net_income if i == 0 else full_year_income
+        period_fraction = 0.5 if i == 0 else 1.0
+        discount_time = 0.5 if i == 0 else year - 2026 + 0.5
+        equity_charge = cost_of_equity * equity * period_fraction
+        residual_income = income - equity_charge
+        pv_residual = residual_income / (1 + cost_of_equity) ** discount_time
+        dividend = income * payout_ratio
+        ending_equity = equity + income - dividend
+        rows.append({
+            "year": year, "period": period, "beginning_equity": equity,
+            "net_income": income, "dividend": dividend,
+            "ending_equity": ending_equity, "equity_charge": equity_charge,
+            "residual_income": residual_income, "discount_time": discount_time,
+            "pv_residual_income": pv_residual,
+        })
+        pv_residual_income += pv_residual
+        equity = ending_equity
+    terminal_ri = (terminal_roe - cost_of_equity) * equity * (1 + terminal_growth)
     terminal_value = terminal_ri / (cost_of_equity - terminal_growth)
-    pv_residual_income += terminal_value / (1 + cost_of_equity) ** (len(net_income) - 0.5)
-    return beginning_equity + pv_residual_income
+    pv_residual_income += terminal_value / (1 + cost_of_equity) ** 4.5
+    return beginning_equity + pv_residual_income, rows
 
 
 def main() -> None:
@@ -58,20 +75,21 @@ def main() -> None:
     per_price = per_eps * float(values[("PER", "target_multiple")])
     per_equity = per_price * shares / 1_000
 
-    rim_equity = rim_value(
+    rim_equity, _ = rim_value(
         base["net_income_krw_bn"].tolist(),
         float(values[("RIM", "beginning_common_equity")]),
         float(values[("RIM", "cost_of_equity")]),
         float(values[("RIM", "payout_ratio")]),
         float(values[("RIM", "terminal_roe")]),
         float(values[("RIM", "terminal_growth")]),
+        float(values[("RIM", "2026H1_actual_net_income")]),
     )
 
     results = pd.DataFrame(
         [
             ["DCF", "Base", dcf_equity, dcf_equity * 1_000 / shares, "filed-anchor"],
             ["PER", "Base", per_equity, per_price, "market-cross-check"],
-            ["RIM", "Base", rim_equity, rim_equity * 1_000 / shares, "filed-anchor"],
+            ["RIM", "Base", rim_equity, rim_equity * 1_000 / shares, "provisional-equity-anchor"],
         ],
         columns=["method", "case", "equity_value_krw_bn", "value_per_share_krw", "status"],
     )

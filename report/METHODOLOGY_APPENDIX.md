@@ -1,10 +1,10 @@
 # 삼양식품 Valuation Methodology Appendix
 
-기존 2026H1 DCF·RIM·PER 계산 결과에 붙는 방법론 보완 문서다. 숫자 업데이트와 방법론 변경을 구분하며, 기존 주당가치를 자동으로 재산출하지 않는다.
+2026H1 actuals를 사용하는 2026-09-18 valuation vintage의 방법론 부록이다. 최신 RIM period bridge와 결과는 Excel 및 `report/VALUATION.md`에 맞췄다.
 
 ## 1. 평가일과 입력 vintage
 
-기초 재무는 2026H1 실제치이며 DCF/RIM 탭은 2026-06-30을 valuation date로, PER peer 가격은 기존 파일상 2026-09-18을 기준으로 표기한다. 따라서 market snapshot과 actual anchor가 완전 동기화되지 않았다. 이 결과를 하나의 동일일 fair value로 읽지 말고, 다음 공식 업데이트에서 가격·peer 추정치·실적 컷오프를 정합화한다. 확정치, 잠정치, 회사 전망, consensus, analyst assumption, scenario를 분리 보존한다.
+기초 재무는 2026H1 실제치이며 DCF/RIM valuation date와 reference price는 2026-09-18이며 최신 actual period end는 2026-06-30이다. 두 기준일을 명시적으로 분리하고, peer 가격·추정치도 같은 market date로 확인되지 않으면 과거 snapshot으로 처리한다. 확정치, 잠정치, 회사 전망, consensus, analyst assumption, scenario를 분리 보존한다.
 
 분기 갱신 때는 DART와 IR를 맞춰 연결/별도, 누적/분기, 확정/잠정, 단위를 확인한다. 이후 지역 매출·제품믹스·공장 가동률·CAPEX·재고/채권·현금/차입금을 갱신하고, 실적 변화와 전망 변경의 영향을 분리한다. 지배주주 자기자본, 비지배지분, 주식수, 자사주 및 희석 주식수도 RIM과 주당가치 bridge에서 확인한다.
 
@@ -40,7 +40,7 @@
 
 ## 5. 평가법별 역할
 
-DCF는 지역 성장·공장 램프·마진·CAPEX·운전자본을 현금흐름으로 전환한다. RIM은 2026H1 연결 자본 1.5483조원을 기준으로 초과이익과 장기 ROE 수렴을 본다. PER은 정상화 EPS에 상대 가격을 적용한다. 기존 결과 DCF 1,631,897원, PER 1,366,590원, RIM 837,658원은 평균하지 않는다. PER는 관찰 프리미엄의 민감도 결과임을 유지한다. 실적 상향과 multiple 상향은 같은 성장 신호를 두 번 보상하지 않도록 이유를 각각 기록한다.
+DCF는 지역 성장·공장 램프·마진·CAPEX·운전자본을 현금흐름으로 전환한다. RIM은 2026H1 연결 자본 1.5483조원을 기준으로 초과이익과 장기 ROE 수렴을 본다. PER은 정상화 EPS에 상대 가격을 적용한다. 현재 결과 DCF 1,631,897원, PER 1,366,590원, RIM 811,036원은 평균하지 않는다. RIM은 2026H1 연결 equity proxy에서 시작해 2026H2 잔여 NI 291.446bn만 반영한다; 지배주주 귀속 equity / NCI 대사는 남아 있다. PER는 관찰 프리미엄의 민감도 결과임을 유지한다. 실적 상향과 multiple 상향은 같은 성장 신호를 두 번 보상하지 않도록 이유를 각각 기록한다.
 
 ## 참조 문서
 

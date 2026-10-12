@@ -45,6 +45,8 @@ ORANGE = "F59E0B"
 
 SHARES_M = 7.533015
 BEGINNING_EQUITY_BN = 1548.3
+H1_NET_INCOME_BN = 282.054
+H1_NET_INCOME_BN = 282.054
 NET_CASH_BN = 76.307
 WACC = 0.085
 TERMINAL_GROWTH = 0.025
@@ -67,25 +69,31 @@ def rim_value(net_income: list[float], coe: float, terminal_roe: float) -> tuple
     equity = BEGINNING_EQUITY_BN
     pv_residual = 0.0
     rows = []
-    for year, income in zip(range(2026, 2031), net_income):
-        residual = income - coe * equity
-        pv = residual / (1 + coe) ** (year - 2026 + 0.5)
+    for i, (year, full_year_income) in enumerate(zip(range(2026, 2031), net_income)):
+        income = full_year_income - H1_NET_INCOME_BN if i == 0 else full_year_income
+        fraction = 0.5 if i == 0 else 1.0
+        discount_time = 0.5 if i == 0 else year - 2026 + 0.5
+        residual = income - coe * equity * fraction
+        pv = residual / (1 + coe) ** discount_time
         dividend = income * PAYOUT
         ending_equity = equity + income - dividend
         rows.append(
             {
                 "year": year,
+                "period": "2026H2" if i == 0 else str(year),
                 "beginning_equity": equity,
                 "net_income": income,
                 "dividend": dividend,
                 "ending_equity": ending_equity,
+                "equity_charge": coe * equity * fraction,
                 "residual_income": residual,
+                "discount_time": discount_time,
                 "pv_residual_income": pv,
             }
         )
         pv_residual += pv
         equity = ending_equity
-    terminal_ri = (terminal_roe - coe) * equity
+    terminal_ri = (terminal_roe - coe) * equity * (1 + TERMINAL_GROWTH)
     terminal_value = terminal_ri / (coe - TERMINAL_GROWTH)
     pv_terminal = terminal_value / (1 + coe) ** 4.5
     return BEGINNING_EQUITY_BN + pv_residual + pv_terminal, rows
@@ -134,7 +142,7 @@ def build_dcf_workbook(base: pd.DataFrame) -> Path:
 
     title_row(summary, "Samyang Foods DCF Valuation", 5)
     summary.append([])
-    summary.append(["Valuation date", "2026-06-30", None, "Reference price", REFERENCE_PRICE])
+    summary.append(["Valuation date / price date", "2026-09-18", None, "Reference price", REFERENCE_PRICE])
     summary.append(["DCF equity value (KRW bn)", equity_value, None, "DCF value/share", price])
     summary.append(["PV of explicit FCFF", pv_stage1, None, "Upside vs reference", price / REFERENCE_PRICE - 1])
     summary.append(["PV of terminal value", pv_terminal, None, "Status", "2026H1 filing anchored"])
@@ -235,8 +243,8 @@ def build_rim_workbook(base: pd.DataFrame) -> Path:
 
     title_row(summary, "Samyang Foods Residual Income Model", 5)
     summary.append([])
-    summary.append(["Valuation date", "2026-06-30", None, "Reference price", REFERENCE_PRICE])
-    summary.append(["Beginning common equity", BEGINNING_EQUITY_BN, None, "RIM value/share", price])
+    summary.append(["Valuation date / price date", "2026-09-18", None, "Reference price", REFERENCE_PRICE])
+    summary.append(["Consolidated equity proxy (NCI pending)", BEGINNING_EQUITY_BN, None, "RIM value/share", price])
     summary.append(["RIM equity value (KRW bn)", equity_value, None, "Upside vs reference", price / REFERENCE_PRICE - 1])
     summary.append(["Cost of equity", COE, None, "Terminal ROE", TERMINAL_ROE])
     summary.append(["Terminal growth", TERMINAL_GROWTH, None, "Payout ratio", PAYOUT])
@@ -251,13 +259,15 @@ def build_rim_workbook(base: pd.DataFrame) -> Path:
     title_row(inputs, "RIM Inputs", 6)
     header(inputs, 3, 1, ["Category", "Item", "Value", "Unit", "Status", "Source / note"])
     input_rows = [
-        ["Common", "Beginning common equity", BEGINNING_EQUITY_BN, "KRW bn", "Filed", "2026H1 DART filing; consolidated equity"],
+        ["Common", "Beginning equity proxy", BEGINNING_EQUITY_BN, "KRW bn", "Provisional", "2026H1 consolidated equity; reconcile parent-attributable equity and NCI before final per-share use"],
         ["Common", "Shares outstanding", SHARES_M, "mn shares", "Filed", "7,533,015 common shares"],
         ["RIM", "Cost of equity", COE, "%", "Assumption", "Independent model assumption"],
         ["RIM", "Payout ratio", PAYOUT, "%", "Assumption", "Applied to Base net income"],
         ["RIM", "Terminal ROE", TERMINAL_ROE, "%", "Assumption", "Mature-state ROE"],
         ["RIM", "Terminal growth", TERMINAL_GROWTH, "%", "Assumption", "Long-run nominal growth"],
         ["Market", "Reference price", REFERENCE_PRICE, "KRW/share", "Observed", "2026-09-18 close"],
+        ["RIM", "2026H1 actual net income", H1_NET_INCOME_BN, "KRW bn", "Reported", "2026H1 consolidated net income; subtract from FY2026E for the June-to-year-end stub"],
+        ["RIM", "2026E full-year net income", 573.5, "KRW bn", "Analyst forecast", "Base forecast; subtract reported H1 net income to avoid double counting"],
     ]
     for row in input_rows:
         inputs.append(row)
@@ -270,20 +280,28 @@ def build_rim_workbook(base: pd.DataFrame) -> Path:
     title_row(forecast, "Residual Income Forecast", 9)
     header(forecast, 3, 1, ["Year", "Beginning equity", "Net income", "Dividend", "Ending equity", "Equity charge", "Residual income", "PV factor", "PV residual income"])
     for i, row in enumerate(rows, 4):
-        forecast.cell(i, 1, row["year"])
-        forecast.cell(i, 2, row["beginning_equity"])
-        forecast.cell(i, 3, row["net_income"])
+        forecast.cell(i, 1, row["period"])
+        forecast.cell(i, 2, "=Inputs!$C$4" if i == 4 else f"=E{i-1}")
+        forecast.cell(i, 3, "=Inputs!$C$12-Inputs!$C$11" if i == 4 else row["net_income"])
         forecast.cell(i, 4, f"=C{i}*Inputs!$C$7")
         forecast.cell(i, 5, f"=B{i}+C{i}-D{i}")
-        forecast.cell(i, 6, f"=B{i}*Inputs!$C$6")
+        forecast.cell(i, 6, f"=B{i}*Inputs!$C$6*0.5" if i == 4 else f"=B{i}*Inputs!$C$6")
         forecast.cell(i, 7, f"=C{i}-F{i}")
-        forecast.cell(i, 8, f"=1/(1+Inputs!$C$6)^(A{i}-2026+0.5)")
+        forecast.cell(i, 8, f"=1/(1+Inputs!$C$6)^0.5" if i == 4 else f"=1/(1+Inputs!$C$6)^(A{i}-2026+0.5)")
         forecast.cell(i, 9, f"=G{i}*H{i}")
         for col in range(2, 8):
             forecast.cell(i, col).number_format = '#,##0.0'
         forecast.cell(i, 8).number_format = "0.000"
         forecast.cell(i, 9).number_format = '#,##0.0'
-    style_sheet(forecast, {1: 10, 2: 18, 3: 15, 4: 14, 5: 17, 6: 16, 7: 17, 8: 13, 9: 20})
+    forecast.append([])
+    forecast.append(["RIM result", "Value"])
+    forecast.append(["Starting equity", "=Inputs!$C$4"])
+    forecast.append(["PV residual income", "=SUM(I4:I8)"])
+    forecast.append(["Terminal RI value", "=E8*(Inputs!$C$8-Inputs!$C$6)*(1+Inputs!$C$9)/(Inputs!$C$6-Inputs!$C$9)"])
+    forecast.append(["PV terminal RI", "=B13/(1+Inputs!$C$6)^4.5"])
+    forecast.append(["RIM equity value", "=B11+B12+B14"])
+    forecast.append(["Value per share", "=B15*1000/Inputs!$C$5"])
+    style_sheet(forecast, {1: 27, 2: 18, 3: 15, 4: 14, 5: 17, 6: 16, 7: 17, 8: 13, 9: 20})
     forecast.freeze_panes = "A4"
 
     title_row(sensitivity, "RIM Sensitivity — Value per Share (KRW)", 6)
@@ -422,7 +440,7 @@ def build_pdf(hist: pd.DataFrame, forecast: pd.DataFrame, valuation: dict[str, f
         table(
             [
                 ["기준일", "기업", "종목코드", "분석 범위"],
-                ["2026-06-30", "삼양식품", "KRX 003230", "2021–2025A / 2026H1 / 2026E–2030E"],
+                ["2026-09-18", "삼양식품", "KRX 003230", "2021–2025A / 2026H1 / 2026E–2030E"],
             ],
             [35 * mm, 42 * mm, 35 * mm, 60 * mm],
             8.5,
@@ -488,7 +506,7 @@ def build_pdf(hist: pd.DataFrame, forecast: pd.DataFrame, valuation: dict[str, f
                 ["영업이익", "3,533억원", "영업이익률 23.8%"],
                 ["순이익", "2,821억원", "RIM과 EPS 전망의 기준"],
                 ["해외 매출", "1조 2,308억원", "전체 매출의 82.9%"],
-                ["자본총계", "1조 5,483억원", "RIM 기초 자기자본"],
+                ["자본총계", "1조 5,483억원", "RIM 기초 장부가치 proxy; NCI 대사 pending"],
                 ["상장주식수", "7,533,015주", "주당가치 계산 기준"],
                 ["순현금", "763억원", "DCF equity bridge"],
             ],
@@ -496,7 +514,7 @@ def build_pdf(hist: pd.DataFrame, forecast: pd.DataFrame, valuation: dict[str, f
         ),
         Spacer(1, 8 * mm),
         p("상반기 실적은 2025년의 높은 성장 이후에도 해외 판매와 20%대 영업이익률이 유지됐음을 보여준다. 다만 2026E Base는 상반기 성장률을 그대로 연장하지 않고, 하반기 전년 대비 성장률이 약 27%로 낮아지는 것으로 설정했다.", "KCallout"),
-        p("자본총계 1조 5,483억원과 7,533,015주는 2026H1 기준 RIM 입력값으로 사용했다. 비지배지분이 유의미하게 달라질 경우 지배주주지분으로 교체해야 한다.", "KSmall"),
+        p("자본총계 1조 5,483억원은 2026H1 연결 장부가치 proxy다. 지배주주 귀속분과 비지배지분 대사는 미완료이며, 확정 전까지 RIM 주당가치는 잠정으로 취급한다.", "KSmall"),
         PageBreak(),
     ]
 
@@ -566,11 +584,11 @@ def build_pdf(hist: pd.DataFrame, forecast: pd.DataFrame, valuation: dict[str, f
 
     story += [
         p("8. RIM", "KH1"),
-        p("RIM은 기초 자기자본에 미래 잔여이익의 현재가치를 더한다. 잔여이익은 순이익에서 자기자본비용을 뺀 값이다. 기존 템플릿의 ‘ROE×자기자본÷요구수익률’ 계산을 교체하고, 연도별 장부가치와 배당을 이어서 계산했다."),
+        p("RIM은 기초 장부가치에 미래 잔여이익의 현재가치를 더한다. 2026H2 stub은 FY2026E에서 2026H1 실제 순이익을 빼고 자기자본비용과 할인기간을 반기로 조정한다. 이후에는 연간 이익과 전기말 장부가치를 연결한다. terminal RI는 다음 기간의 장기성장률을 반영한다."),
         table(
             [
                 ["가정", "값", "설명"],
-                ["기초 자기자본", "1조 5,483억원", "2026H1 공시 기준"],
+                ["기초 장부가치 proxy", "1조 5,483억원", "2026H1 연결; NCI 대사 pending"],
                 ["자기자본비용", "9.0%", "모델 독립 가정"],
                 ["배당성향", "15.0%", "순이익에서 배당 차감"],
                 ["장기 ROE", "14.0%", "고성장 이후 정상화"],
@@ -581,7 +599,7 @@ def build_pdf(hist: pd.DataFrame, forecast: pd.DataFrame, valuation: dict[str, f
         ),
         Spacer(1, 8 * mm),
         p("RIM이 DCF와 PER보다 낮은 이유", "KH2"),
-        p("2026H1 장부가치에 비해 시장가치가 높은 상황에서 장기 ROE를 14%로 정상화하면 초과이익의 지속기간이 짧아진다. 현재 주가를 설명하려면 더 높은 장기 ROE, 낮은 자기자본비용, 긴 초과이익 지속기간 중 하나가 필요하다."),
+        p("장기 ROE를 14%로 정상화하면 초과이익의 지속기간이 짧아진다. RIM 주당 결과는 연결 equity proxy의 주주 귀속 대사와 terminal ROE·성장률에 민감하므로 DCF·PER와 단순 평균하지 않는다."),
         PageBreak(),
     ]
 
