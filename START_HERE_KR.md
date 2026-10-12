@@ -1,81 +1,24 @@
-# 시작하기 — 삼양식품 첫 GitHub 프로젝트
+# 시작하기 — 삼양식품 Equity Research
 
-이 프로젝트의 목표는 **기업분석 보고서와 데이터 분석 코드를 따로 만드는 것이 아니라 하나의 흐름으로 연결하는 것**이다.
+이 저장소는 2026H1 actuals와 2026E–2030E forecast를 DCF·RIM·PER에 연결한 포트폴리오다. 기존 평가 결과를 새로 검증된 데이터처럼 보지 않도록 vintage와 시나리오 가정을 분리한다.
 
-## 지금 당장 할 순서
+## 권장 읽기 순서
 
-### 1. 먼저 Notebook 01 실행
-`notebooks/01_financial_trend_analysis.ipynb`
+1. [`README.md`](README.md) — 요약, 결과, 저장소 지도
+2. [`research/COMPANY_SPECIFIC_FRAMEWORK.md`](research/COMPANY_SPECIFIC_FRAMEWORK.md) — 해외 수요·공장 증설·마진·현금 전환 논리
+3. [`research/PEER_SELECTION_SCORECARD.md`](research/PEER_SELECTION_SCORECARD.md) — 농심·오리온 정량 앵커와 후보/보조 peer의 역할
+4. [`research/VALUATION_VINTAGE_POLICY.md`](research/VALUATION_VINTAGE_POLICY.md) — actual, estimates, market date 동기화 규칙
+5. [`report/VALUATION.md`](report/VALUATION.md) — DCF·PER·RIM 계산과 결과 차이
+6. [`report/METHODOLOGY_APPENDIX.md`](report/METHODOLOGY_APPENDIX.md) — 보고서용 방법론 종합 부록
+7. `model/DCF_model.xlsx`, `model/RIM_model.xlsx` — 감사 가능한 현금흐름/초과이익 빌드
 
-현재 들어 있는 2021~2025 매출/영업이익/순이익으로:
-- 매출 성장률
-- 영업이익률
-- 순이익률
-- CAGR
+## 해석할 때 주의
 
-을 계산한다.
+- DCF/RIM의 기초는 2026H1 공시 실적이다. 모델 탭의 2026-06-30 date와 PER 자료의 2026-09-18 peer snapshot은 완전히 같은 vintage가 아니므로 한 날짜의 fair value로 혼합하지 않는다.
+- 14.72x PER Base는 관찰된 시장 프리미엄 +50%를 다시 쓴 sensitivity다. 적정배수로 검증된 값이 아니다.
+- DCF·PER·RIM은 평균하지 않는다. 각 방법이 성장 현금흐름, 시장 상대가격, 장기 ROE를 각각 보여준다.
+- 새 actuals를 추가할 때 원본 공시 출처, 연결/별도, 누적/분기, 실제/잠정 구분을 함께 기록한다.
 
-### 2. 다음 자료를 직접 수집
-공식 IR / DART에서 아래를 채운다.
+## 갱신 순서
 
-- 2026 1Q / 2Q 실적
-- 국내/해외 매출
-- 지역별 매출 또는 법인별 매출
-- 제품군/브랜드 관련 매출 데이터
-- 생산능력 / 생산실적 / 가동률
-- 원재료비
-- CAPEX
-- 감가상각비
-- 재고자산
-- 매출채권
-- 매입채무
-- 현금
-- 차입금
-- 발행주식수
-
-수집한 원본 파일은 `data/raw/` 또는 `documents/`에 넣는다.
-
-### 3. 분석 질문을 먼저 고정
-첫 보고서에서는 질문을 너무 많이 만들지 않는다.
-
-핵심 질문:
-> 삼양식품의 향후 실적은 어떤 사업 driver로 설명할 수 있으며, 이를 반영한 적정가치는 얼마인가?
-
-보조 질문:
-1. 최근 성장의 핵심 driver는 무엇인가?
-2. 수익성 개선은 구조적인가?
-3. 해외 성장률이 둔화되면 실적 민감도는 얼마나 큰가?
-4. 생산능력 확대가 실제 매출로 연결되는가?
-5. 현재 valuation은 어떤 성장률을 이미 반영하고 있는가?
-
-### 4. 기존 valuation 템플릿은 유지하되 가정을 교체
-`model/` 안의 PER / RIM / DCF는 네가 이미 만들어 둔 틀이다.
-
-이번 프로젝트의 차별점은:
-- 단순 평균 성장률 사용 X
-- 실제 사업 driver 기반 forecast
-- 각 가정에 출처 표시
-- Base / Bull / Bear scenario
-- Python 분석 결과와 Excel valuation 연결
-
-### 5. 나중에 LLM 프로젝트로 확장
-기업분석하면서 받은 PDF를 버리지 말고 `documents/`에 모은다.
-
-나중에는 이 문서들로:
-- RAG
-- citation
-- 금융 질문셋
-- hallucination 평가
-
-를 붙인다.
-
-## 1차 완료 기준
-
-첫 버전은 아래 4개만 완성하면 된다.
-
-- [ ] 2021~2026H1 재무/사업 데이터 정리
-- [ ] Python 분석 notebook
-- [ ] forecast + valuation
-- [ ] 10~15p report
-
-이게 끝난 뒤 LLM 확장으로 넘어간다.
+DART·공식 IR 자료 확인 → actuals/source registry 입력 → 지역/공장/원가/운전자본 가정 업데이트 → `src/valuation.py` 실행 → Excel/PDF 재생성 스크립트 점검 → 가치 변화를 actuals/forecast/multiple·discount-rate 요인으로 나눠 기록한다.

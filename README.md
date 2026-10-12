@@ -4,7 +4,7 @@
 
 [![Company](https://img.shields.io/badge/Company-Samyang%20Foods-E60012)](https://www.samyangfoods.com/)
 ![Ticker](https://img.shields.io/badge/KRX-003230-1f6feb)
-![Status](https://img.shields.io/badge/Status-Complete%20v1.0-2ea44f)
+![Status](https://img.shields.io/badge/Status-Expanded%20methodology-2ea44f)
 ![Data](https://img.shields.io/badge/Data-2026H1-2ea44f)
 
 ## 한눈에 보기
@@ -27,9 +27,11 @@
 ### 완성본 바로 보기
 
 - [최종 PDF 보고서](report/Samyang_Foods_Equity_Research_2026H1.pdf)
+- [방법론 부록 원문](report/METHODOLOGY_APPENDIX.md)
 - [DCF Excel 모델](model/DCF_model.xlsx)
 - [RIM Excel 모델](model/RIM_model.xlsx)
 - [가치평가 상세 설명](report/VALUATION.md)
+- [Valuation vintage 정책](research/VALUATION_VINTAGE_POLICY.md)
 
 ## 투자 판단의 핵심
 
@@ -59,6 +61,15 @@
 | RIM | 자기자본비용 9.0%, 장기 ROE 14.0% | 837,658원 | 2026H1 자기자본 1.5483조원 사용 |
 
 DCF 민감도에서 주당가치는 132만~216만원 범위다(WACC 7.5~9.5%, 영구성장률 2.0~3.0%). 숫자 하나보다 가정 변화에 따른 범위를 먼저 본다.
+
+## 평가 기준과 vintage 통제
+
+- [기업 고유 분석 프레임워크](research/COMPANY_SPECIFIC_FRAMEWORK.md): 지역·제품·생산 램프·현금전환의 연결 및 반증 신호
+- [Peer Selection Scorecard](research/PEER_SELECTION_SCORECARD.md): 농심·오리온 정량 앵커와 CJ·풀무원 및 일본 후보의 분리 이유, 포함 게이트
+- [Valuation Vintage Policy](research/VALUATION_VINTAGE_POLICY.md): 실적·시장가격·컨센서스 컷오프와 갱신 순서
+- [DCF·RIM·PER 역할](research/VALUATION_FRAMEWORK.md): 평가법별 질문과 중복 반영 통제
+
+**해석 주의:** 현재 PER의 2026-09-18 시장 스냅샷과 2026H1 actual anchor를 함께 쓴다. 14.72배는 관찰 프리미엄을 이용한 분석자 민감도 시나리오이며 입증된 공정 배수가 아니다. 평가일·peer 가격·추정치 vintage를 한 날짜로 정합화하기 전에는 단일 목표가처럼 읽지 않는다.
 
 ## 저장소 구성
 
@@ -127,6 +138,9 @@ python src/generate_portfolio_artifacts.py
 
 ## PER 비교기업 분석
 
-- [PER 프리미엄 산정 근거](research/PER_PREMIUM_FRAMEWORK.md)
+- [PER 프리미엄 산정 근거와 한계](research/PER_PREMIUM_FRAMEWORK.md)
+- [Peer 선정 게이트와 역할](research/PEER_SELECTION_SCORECARD.md)
+- [기준일·출처 갱신 정책](research/VALUATION_VINTAGE_POLICY.md)
+- [삼양식품 운영 드라이버 분석](research/COMPANY_SPECIFIC_FRAMEWORK.md)
 - [비교기업 데이터](data/processed/peer_valuation_2026_2027.csv)
 - `notebooks/04_per_relative_valuation.ipynb`에서 프리미엄과 적정가치 민감도를 재현할 수 있다.

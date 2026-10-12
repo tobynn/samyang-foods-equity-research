@@ -12,3 +12,6 @@
 8. 출처·가정 부록
 
 PDF는 `python src/generate_portfolio_artifacts.py`로 Excel 모델 및 차트와 함께 재생성할 수 있다.
+
+
+방법론 보완은 [Peer·vintage·프리미엄 부록](METHODOLOGY_APPENDIX.md)과 `research/`의 개별 프레임워크를 참조한다.

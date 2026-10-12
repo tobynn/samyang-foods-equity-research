@@ -1,78 +1,49 @@
 # PER Premium Framework — Samyang Foods
 
-**Reference date:** 2026-09-18 market close  
-**Purpose:** derive a defensible PER premium for the project instead of assigning an arbitrary percentage.
+**Peer snapshot:** 2026-09-18 market close (as recorded in the existing project data)  
+**Historical operating anchor:** 2026H1 reported results  
+**Use:** relative valuation sensitivity, not a standalone fair-value conclusion.
 
-## 1. Peer selection
+## 1. Panel construction
 
-### Primary peers
-- **Nongshim** — closest business-model peer because ramen is the core category and global expansion is a central earnings driver.
-- **Orion** — not a ramen company, but a strong comparison for global branded packaged food, overseas production, and brand-led margin structure.
+- **Nongshim — primary product/economics anchor.** Ramen category, brand, manufacturing, input costs and channel exposure are closest. Differences in domestic mix, overseas growth, margin and ROE remain material.
+- **Orion — primary branded-food cross-check.** International brand-building and overseas production/distribution are relevant; confectionery category economics differ from noodles, so it is not interchangeable with Nongshim.
+- **CJ CheilJedang — secondary food-sector context.** Food operations are relevant, but consolidated EPS also includes BIO and logistics; exclude its whole-company multiple from the primary median. Use segment disclosure only for operating context.
+- **Pulmuone — secondary domestic food context.** Brand, channel, input and promotion economics provide context; growth, category and turnaround/base effects make it unsuitable as a primary growth multiple.
+- **Nissin / Toyo Suisan — candidate product benchmarks.** Keep outside numeric median until identical-period estimates, market dates, FX and normalized earnings can be sourced and reconciled.
 
-### Secondary peers
-- **CJ CheilJedang** — useful as a large Korean food benchmark, but less comparable because Food, BIO, and logistics dilute the pure consumer-brand economics.
-- **Pulmuone** — useful as a domestic food benchmark, but 2026 EPS growth is distorted by a low 2025 base / turnaround.
+A peer may inform product demand or operating assumptions without being a valuation peer. See [`PEER_SELECTION_SCORECARD.md`](PEER_SELECTION_SCORECARD.md) for mandatory inclusion gates and score dimensions.
 
-The target multiple therefore uses **Nongshim + Orion** as the primary panel. CJ CheilJedang and Pulmuone are shown only as a reasonableness check.
+## 2. Existing observed valuation snapshot
 
-## 2. Current forward-multiple premium
+| Period label in source data | Samyang | Orion | Nongshim | Primary median | Implied observed premium |
+|---|---:|---:|---:|---:|---:|
+| 2026E / FY1 | 16.9x | 9.3x | 11.9x | 10.6x | +59.4% |
+| 2027E / FY2 | 13.8x | 8.33x | 11.3x | 9.815x | +40.6% |
 
-### 2026E
-- Samyang Foods P/E: **16.9x**
-- Orion P/E: **9.3x**
-- Nongshim P/E: **11.9x**
-- Primary-peer median: **10.6x**
-- Observed Samyang premium: **+59.4%**
+The source snapshot averages to approximately +50% across the two horizons. This is **a price observation**, not evidence that growth, ROE or margins cause exactly a 50% fair premium. FY1/FY2 period definitions and estimate-provider metadata must be checked before treating this as a synchronized comparison.
 
-### 2027E
-- Samyang Foods P/E: **13.8x**
-- Orion P/E: **8.33x**
-- Nongshim P/E: **11.3x**
-- Primary-peer median: **9.815x**
-- Observed Samyang premium: **+40.6%**
+## 3. Why an above-peer multiple could persist — and what would falsify it
 
-The average observed premium across FY1/FY2 is approximately **+50%**.
+Potential supports: faster EPS growth, higher reported operating margin/ROE, overseas brand pull, capacity additions and geographic expansion. These supports need verification in repeat sales, realized pricing/mix, utilization/yield, durable margins, working capital and post-CAPEX cash returns.
 
-## 3. Why a premium is economically plausible
+Counter-evidence: distributor inventory outruns consumer sell-through; plant ramp is delayed; promotions or freight absorb gross-margin gains; local production displaces exports rather than adds demand; or earnings depend on a narrow product/channel. These conditions imply lower growth duration, lower normalized profitability or a smaller multiple.
 
-2026 estimates show a large profitability / growth gap:
+## 4. Scenario convention already used in the model
 
-| Metric | Samyang | Orion | Nongshim |
-|---|---:|---:|---:|
-| EPS growth | 42.76% | 23.82% | 17.94% |
-| EBIT margin | 23.47% | 16.85% | 6.29% |
-| ROE | 37.19% | 11.87% | 6.76% |
+The existing 2027E primary median is 9.815x. The model applies +35% / +50% / +65% scenario uplifts, producing 13.25x / 14.72x / 16.19x. With project EPS of KRW 92,839, the existing values are approximately KRW 1.23m / 1.37m / 1.50m per share.
 
-The premium is therefore anchored to an **observed market premium**, not to a hand-scored checklist. The operating metrics are used to test whether that observed premium has a plausible fundamental basis.
+Treat these as **analyst sensitivity cases**. The Base +50% case reuses the observed premium and is therefore vulnerable to circular reasoning. Do not present 14.72x as calibrated fair value until the historical relative-valuation and operating-differential tests in the peer scorecard are completed. DCF and RIM remain independent cross-checks.
 
-## 4. Project valuation convention
+## 5. Normalization and premium evidence gates
 
-For the project, use the 2027 primary-peer median P/E because the valuation date is in September 2026 and FY2 earnings are increasingly relevant.
+1. Align market close, diluted shares, consensus provider, forecast period, currency and fiscal year.
+2. Normalize one-off EPS effects and exclude negative/near-zero denominators from PER medians.
+3. Show the individual peer values and range; with two peers, do not imply statistical precision.
+4. Compare growth, margins, ROE/ROIC, overseas mix and reinvestment needs; state which gap is already embedded in forecast EPS.
+5. Use historical relative PER through a cycle if a premium is to be called normalized; otherwise retain a wider scenario range.
+6. Do not uplift EPS growth and multiple for the same plant ramp, brand demand or margin improvement.
 
-- 2027 peer median P/E = **9.815x**
-- Bear premium = **+35%** → target P/E **13.25x**
-- Base premium = **+50%** → target P/E **14.72x**
-- Bull premium = **+65%** → target P/E **16.19x**
+## Sources and limitations
 
-These ±15 percentage-point bands are sensitivity cases around the normalized 50% observed premium; they are not claims that the market "should" pay those exact premiums.
-
-## 5. Implied value using this project's 2027E EPS
-
-Project 2027E EPS = **KRW 92,839**
-
-- Bear: 13.25x × 92,839 ≈ **KRW 1.23m**
-- Base: 14.72x × 92,839 ≈ **KRW 1.37m**
-- Bull: 16.19x × 92,839 ≈ **KRW 1.50m**
-
-As a cross-check, using consensus 2027E EPS of KRW 91,345 gives approximately KRW 1.21m / 1.34m / 1.48m.
-
-## 6. Important limitation
-
-A PER framework can become circular if the current Samyang premium is used mechanically as the target premium. For that reason:
-- this PER result should be treated as a **relative-valuation cross-check**,
-- DCF and RIM should remain independent valuation anchors,
-- the final report should reconcile why the three methods differ.
-
-## Sources
-- MarketScreener financial estimates / valuation pages for Samyang Foods, Orion, Nongshim, CJ CheilJedang, and Pulmuone.
-- FnGuide Company Guide used as a secondary check for FY1 consensus and business comparability.
+The existing peer numbers come from the recorded MarketScreener estimate/valuation snapshot, with FnGuide as a secondary check. The snapshot needs its exact provider retrieval record added to the data registry before reuse. Official business context: [Samyang Foods IR](https://www.samyangfoods.com/kor/ir/list.do), [Nongshim IR](https://www.nongshim.com/invest/ir), [Orion IR](https://www.orionworld.com/ir).

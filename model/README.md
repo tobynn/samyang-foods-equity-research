@@ -17,3 +17,8 @@ Excel 모델과 Python 계산은 같은 입력값을 사용한다. 기준 결과
 - Base/Bull/Bear를 같은 정의로 비교한다.
 - Excel과 Python의 가정을 `valuation_assumptions.csv`에 맞춘다.
 - 외부 링크와 과거 표본기업 값을 제거한 뒤 공개한다.
+
+
+## 해석 기준 보완
+
+PER 모델의 primary panel은 농심·오리온이지만 관찰 프리미엄 +50%는 공정가치로 검증된 계수가 아니라 기존 snapshot 기반 sensitivity다. 기준일은 DCF/RIM의 2026-06-30과 peer 가격의 2026-09-18로 완전히 일치하지 않는다. 갱신·해석 때 [`peer scorecard`](../research/PEER_SELECTION_SCORECARD.md), [`premium framework`](../research/PER_PREMIUM_FRAMEWORK.md), [`vintage policy`](../research/VALUATION_VINTAGE_POLICY.md)를 먼저 확인한다.
